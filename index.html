@@ -16,8 +16,7 @@
       --text: #1a1a1a;
       --muted: #666;
       --border: #ddd;
-      --sidebar-w: 240px;
-    }
+}
 
     body {
       font-family: Georgia, serif;
@@ -116,51 +115,6 @@
       min-height: calc(100vh - 120px);
     }
 
-    /* ── SIDEBAR ── */
-    nav.sidebar {
-      width: var(--sidebar-w);
-      flex-shrink: 0;
-      background: var(--white);
-      border-right: 1px solid var(--border);
-      padding: 1.5rem 0;
-      position: sticky;
-      top: 80px;
-      height: calc(100vh - 80px);
-      overflow-y: auto;
-    }
-
-    .nav-section-label {
-      font-family: 'Helvetica Neue', sans-serif;
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: #999;
-      padding: 0.8rem 1.2rem 0.3rem;
-    }
-
-    nav.sidebar a {
-      display: block;
-      padding: 0.5rem 1.2rem;
-      font-family: 'Helvetica Neue', sans-serif;
-      font-size: 0.87rem;
-      color: var(--muted);
-      text-decoration: none;
-      border-left: 3px solid transparent;
-      transition: all 0.15s;
-    }
-
-    nav.sidebar a:hover {
-      color: var(--navy);
-      background: var(--light-blue);
-      border-left-color: var(--blue);
-    }
-
-    nav.sidebar a.active {
-      color: var(--navy);
-      background: var(--light-blue);
-      border-left-color: var(--navy);
-      font-weight: bold;
-    }
 
     /* ── MAIN CONTENT ── */
     main {
@@ -504,7 +458,6 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
-      nav.sidebar { display: none; }
       main { padding: 1.5rem; }
       .domain-grid, .materials-grid { grid-template-columns: 1fr; }
       header h1 { font-size: 0.95rem; }
@@ -530,18 +483,6 @@
 
 <div class="layout">
 
-  <nav class="sidebar">
-    <div class="nav-section-label">Overview</div>
-    <a href="#" onclick="showPage('home'); return false;" class="active" id="nav-home">Home</a>
-
-    <div class="nav-section-label">Materials</div>
-    <a href="#" onclick="showPage('brief'); return false;" id="nav-brief">Session Brief</a>
-    <a href="#" onclick="showPage('groups'); return false;" id="nav-groups">Group Assignments</a>
-    <a href="#" onclick="showPage('resources'); return false;" id="nav-resources">Resource Guide</a>
-
-    <div class="nav-section-label">Activity</div>
-    <a href="Week6_Opening_Poll.html" target="_blank">Opening Poll ↗</a>
-  </nav>
 
   <main>
 
@@ -907,10 +848,8 @@
 <script>
   function showPage(id) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.querySelectorAll('nav.sidebar a, .topnav a').forEach(a => a.classList.remove('active'));
+    document.querySelectorAll('.topnav a').forEach(a => a.classList.remove('active'));
     document.getElementById('page-' + id).classList.add('active');
-    const navEl = document.getElementById('nav-' + id);
-    if (navEl) navEl.classList.add('active');
     const tnavEl = document.getElementById('tnav-' + id);
     if (tnavEl) tnavEl.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
