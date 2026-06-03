@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Changing Gender Norms: What Do You Think — and What Does the Data Show?</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #f5f4f0;
+      color: #1a1a1a;
+      line-height: 1.7;
+    }
+
+    header {
+      background: #1e3a5f;
+      color: #fff;
+      padding: 2.5rem 2rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: normal;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.4rem;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      opacity: 0.8;
+      font-style: italic;
+    }
+
+    .progress-bar-wrap {
+      background: #d0d8e4;
+      height: 6px;
+    }
+
+    .progress-bar {
+      background: #4a90c4;
+      height: 6px;
+      transition: width 0.4s ease;
+    }
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 2rem 1.5rem 4rem;
+    }
+
+    .section-label {
+      font-size: 0.78rem;
+      font-family: 'Helvetica Neue', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #4a90c4;
+      margin: 2.5rem 0 0.5rem;
+    }
+
+    .section-intro {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 1.5rem;
+      font-style: italic;
+    }
+
+    .question-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1.8rem 2rem;
+      margin-bottom: 1.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .question-number {
+      font-size: 0.75rem;
+      font-family: 'Helvetica Neue', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #999;
+      margin-bottom: 0.5rem;
+    }
+
+    .question-text {
+      font-size: 1.05rem;
+      margin-bottom: 1.2rem;
+      color: #1a1a1a;
+    }
+
+    .question-text em {
+      font-style: italic;
+      color: #333;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.6rem 0.9rem;
+      border: 1.5px solid #ddd;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      font-size: 0.95rem;
+      background: #fafafa;
+    }
+
+    .option:hover {
+      border-color: #4a90c4;
+      background: #f0f6fb;
+    }
+
+    .option.selected {
+      border-color: #1e3a5f;
+      background: #e8f0f8;
+      font-weight: bold;
+    }
+
+    .option.correct {
+      border-color: #2e7d32;
+      background: #e8f5e9;
+    }
+
+    .option.incorrect {
+      border-color: #c62828;
+      background: #ffebee;
+    }
+
+    .option input[type="radio"] {
+      accent-color: #1e3a5f;
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .submit-btn {
+      margin-top: 1rem;
+      padding: 0.65rem 1.5rem;
+      background: #1e3a5f;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      font-family: 'Helvetica Neue', sans-serif;
+      letter-spacing: 0.04em;
+      transition: background 0.2s;
+    }
+
+    .submit-btn:hover { background: #2a5080; }
+    .submit-btn:disabled { background: #aaa; cursor: default; }
+
+    .benchmark {
+      display: none;
+      margin-top: 1.2rem;
+      padding: 1rem 1.2rem;
+      background: #f0f6fb;
+      border-left: 4px solid #4a90c4;
+      border-radius: 0 6px 6px 0;
+      font-size: 0.9rem;
+    }
+
+    .benchmark.show { display: block; }
+
+    .benchmark strong {
+      display: block;
+      font-size: 0.75rem;
+      font-family: 'Helvetica Neue', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #4a90c4;
+      margin-bottom: 0.4rem;
+    }
+
+    .benchmark p { color: #333; margin-bottom: 0.5rem; }
+
+    .benchmark .source {
+      font-size: 0.78rem;
+      color: #888;
+      font-style: italic;
+      margin-bottom: 0;
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 2.5rem;
+    }
+
+    .nav-btn {
+      padding: 0.7rem 1.8rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      font-family: 'Helvetica Neue', sans-serif;
+      transition: background 0.2s;
+    }
+
+    .nav-btn.prev { background: #e0e0e0; color: #333; }
+    .nav-btn.prev:hover { background: #ccc; }
+    .nav-btn.next { background: #1e3a5f; color: #fff; }
+    .nav-btn.next:hover { background: #2a5080; }
+    .nav-btn:disabled { opacity: 0.3; cursor: default; }
+
+    .q-counter {
+      font-size: 0.85rem;
+      color: #888;
+      font-family: 'Helvetica Neue', sans-serif;
+    }
+
+    /* Summary screen */
+    #summary {
+      display: none;
+      background: #fff;
+      border-radius: 8px;
+      padding: 2.5rem 2rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    #summary h2 {
+      font-size: 1.4rem;
+      color: #1e3a5f;
+      margin-bottom: 1rem;
+      font-weight: normal;
+    }
+
+    #summary p {
+      font-size: 0.95rem;
+      color: #555;
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+
+    #summary .score {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: #1e3a5f;
+      margin: 1rem 0;
+    }
+
+    #summary .score-label {
+      font-size: 0.85rem;
+      color: #888;
+      font-family: 'Helvetica Neue', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    #summary .restart-btn {
+      margin-top: 1.5rem;
+      padding: 0.7rem 2rem;
+      background: #1e3a5f;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      font-family: 'Helvetica Neue', sans-serif;
+    }
+
+    .highlight-stat {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: #1e3a5f;
+      display: block;
+      margin: 0.3rem 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.78rem;
+      color: #aaa;
+      font-family: 'Helvetica Neue', sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Changing Gender Norms: What Do You Think — and What Does the Data Show?</h1>
+</header>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+</div>
+
+<main>
+  <div id="intro">
+    <div class="section-label">Instructions</div>
+    <div class="question-card">
+      <p class="question-text">This short poll asks for your views on changing gender norms — and invites you to compare them with findings from recent global surveys.</p>
+      <p style="margin-top:0.8rem; font-size:0.9rem; color:#555;">For each question, select your answer and click <strong>Submit</strong>. You will immediately see how your response compares to data from surveys such as the Ipsos International Women's Day Report, the WEF Global Gender Gap Report, the UNDP Gender Social Norms Index, and research from Stanford and Equimundo.</p>
+      <p style="margin-top:0.8rem; font-size:0.9rem; color:#555;">There are no right or wrong answers on opinion questions. On estimation questions, see how close you get to the actual global figures.</p>
+      <p style="margin-top:0.8rem; font-size:0.9rem; color:#555; font-style:italic;">Your responses are not collected or stored.</p>
+      <button class="submit-btn" onclick="startPoll()">Begin →</button>
+    </div>
+  </div>
+
+  <div id="pollContainer" style="display:none;"></div>
+  <div id="summary"></div>
+</main>
+
+<footer>PGLC754 Summer 2026 · Week 6 Joint Session</footer>
+
+<script>
+  const questions = [
+    {
+      section: "Section 1 — Your Attitudes",
+      sectionIntro: "These questions ask for your personal view. After you submit, you will see what a global sample of respondents said.",
+      number: "Question 1 of 12",
+      type: "opinion",
+      text: 'Do you agree or disagree: <em>"When it comes to giving women equal rights with men, things have gone far enough."</em>',
+      options: ["Strongly agree", "Somewhat agree", "Somewhat disagree", "Strongly disagree", "Not sure"],
+      benchmark: {
+        stat: "52%",
+        text: "of respondents across 29 countries agree — up from a lower baseline in 2019, and having increased in 23 of 24 countries surveyed over that period.",
+        source: "Ipsos, Mind the Gaps, 2026"
+      }
+    },
+    {
+      section: null,
+      number: "Question 2 of 12",
+      type: "opinion",
+      text: 'Do you agree or disagree: <em>"Things would work better if more women held positions of responsibility in government and business."</em>',
+      options: ["Strongly agree", "Somewhat agree", "Somewhat disagree", "Strongly disagree", "Not sure"],
+      benchmark: {
+        stat: "60%",
+        text: "agree across 29 countries — 68% of women and 53% of men.",
+        source: "Ipsos, Mind the Gaps, 2026"
+      }
+    },
+    {
+      section: null,
+      number: "Question 3 of 12",
+      type: "opinion",
+      text: 'Do you agree or disagree: <em>"Efforts to promote women\'s equality have gone so far that they now discriminate against men."</em>',
+      options: ["Strongly agree", "Somewhat agree", "Somewhat disagree", "Strongly disagree", "Not sure"],
+      benchmark: {
+        stat: "52% of men / 36% of women",
+        text: "agree across 29 countries — one of the starkest gender divides in recent attitudinal research.",
+        source: "Ipsos, Mind the Gaps, 2026"
+      }
+    },
+    {
+      section: null,
+      number: "Question 4 of 12",
+      type: "opinion",
+      text: "How optimistic are you that gender norms will continue to change in a positive direction over the next 25 years?",
+      options: ["Very optimistic", "Somewhat optimistic", "Somewhat pessimistic", "Very pessimistic", "Not sure"],
+      benchmark: {
+        stat: "55% vs. 40%",
+        text: "55% of respondents think young women today will have a better life than women of their parents' generation. Only 40% think the same for young men — a significant optimism gap across genders.",
+        source: "Ipsos, Mind the Gaps, 2026"
+      }
+    },
+    {
+      section: "Section 2 — What Do You Think the Data Show?",
+      sectionIntro: "These questions ask you to estimate a global statistic. After you submit, you will see the actual figure.",
+      number: "Question 5 of 12",
+      type: "factual",
+      correctIndex: 2,
+      text: "What percentage of the global gender gap do you think has been closed so far?",
+      options: ["Less than 50%", "50–60%", "61–70%", "71–80%", "More than 80%"],
+      benchmark: {
+        stat: "68.8%",
+        text: "of the global gender gap has been closed — but at the current pace, full parity is still 123 years away.",
+        source: "WEF, Global Gender Gap Report, 2025"
+      }
+    },
+    {
+      section: null,
+      number: "Question 6 of 12",
+      type: "factual",
+      correctIndex: 1,
+      text: "Women make up approximately 41% of the global workforce. What share of top management positions do they hold?",
+      options: ["Less than 20%", "20–30%", "31–40%", "More than 40%"],
+      benchmark: {
+        stat: "28.8%",
+        text: "of top management positions are held by women globally — despite representing 41.2% of the workforce. The education-to-leadership gap is one of the most striking findings in recent gender research.",
+        source: "WEF, Global Gender Gap Report, 2025"
+      }
+    },
+    {
+      section: null,
+      number: "Question 7 of 12",
+      type: "factual",
+      correctIndex: 2,
+      text: "How much more time do women spend on unpaid care and domestic work compared to men, globally?",
+      options: ["About the same", "1.5 times more", "2.5 times more", "4 times more"],
+      benchmark: {
+        stat: "2.5×",
+        text: "Women devote 2.5 times as many hours per day to unpaid domestic and care work as men — a figure that has changed very little despite significant shifts in attitudes about who should do this work.",
+        source: "UN Women, Gender Snapshot, 2025"
+      }
+    },
+    {
+      section: null,
+      number: "Question 8 of 12",
+      type: "factual",
+      correctIndex: 3,
+      text: "What proportion of people globally hold at least one bias against gender equality — for example, believing men make better political leaders or business executives?",
+      options: ["About 1 in 10", "About 3 in 10", "About 5 in 10", "About 9 in 10"],
+      benchmark: {
+        stat: "~9 in 10",
+        text: "Nearly 9 in 10 people hold at least one bias against gender equality — including in countries with high levels of gender equality in outcomes. This is the central finding of the UNDP Gender Social Norms Index.",
+        source: "UNDP, Gender Social Norms Index, 2023"
+      }
+    },
+    {
+      section: null,
+      number: "Question 9 of 12",
+      type: "factual",
+      correctIndex: 2,
+      text: 'Among Gen Z men globally, what percentage agree that <em>"a wife should always obey her husband"</em>?',
+      options: ["About 10%", "About 20%", "About 30%", "About 40%"],
+      benchmark: {
+        stat: "31%",
+        text: "of Gen Z men agree — roughly twice the rate of Baby Boomer men (13–17%). This generational reversal — where younger men hold more traditional views than older generations — is one of the most striking findings in recent attitudinal research.",
+        source: "Ipsos, Mind the Gaps, 2026"
+      }
+    },
+    {
+      section: null,
+      number: "Question 10 of 12",
+      type: "factual",
+      correctIndex: 2,
+      text: 'What percentage of men globally report feeling that <em>"no one cares whether they are okay"</em>?',
+      options: ["About 20%", "About 40%", "About 60%", "About 80%"],
+      benchmark: {
+        stat: "60%+",
+        text: "More than 60% of men report feeling that no one cares whether they are okay — a finding closely linked to adherence to rigid masculinity norms that discourage emotional expression and help-seeking behavior.",
+        source: "Equimundo, IMAGES Global Report"
+      }
+    },
+    {
+      section: "Section 3 — Looking Ahead",
+      sectionIntro: "Two final questions to set up the group discussion.",
+      number: "Question 11 of 12",
+      type: "opinion",
+      text: "Which of the six domains being discussed today do you think has seen the <em>least</em> progress in changing gender norms over the past 25 years?",
+      options: ["Education", "Paid and unpaid work and care", "Political voice and representation", "Health and well-being", "Masculinities and social change"],
+      benchmark: {
+        stat: "22.9% closed",
+        text: "Political empowerment is the largest remaining gender gap globally — only 22.9% closed — and at the current pace will take 162 years to reach full parity. How did your sense of where progress has been slowest compare?",
+        source: "WEF, Global Gender Gap Report, 2025"
+      }
+    },
+    {
+      section: null,
+      number: "Question 12 of 12",
+      type: "factual",
+      correctIndex: 3,
+      text: 'A global study across 60 countries found that people consistently underestimate how progressive their peers are on gender issues. In Zimbabwe, men estimated that only 37% of their male peers supported women working outside the home. What was the actual figure?',
+      options: ["37% (their estimate was correct)", "52%", "63%", "72%"],
+      benchmark: {
+        stat: "72%",
+        text: "The actual figure was 72% — nearly double what men estimated. This pattern of underestimating others' progressive views was found across most of the 60 countries studied. The implication: correcting misperceptions about what peers believe could be a powerful lever for accelerating norm change — without waiting for underlying attitudes to shift.",
+        source: "Stanford/SIEPR, Voena et al., 2023"
+      }
+    }
+  ];
+
+  let current = 0;
+  let answered = new Array(questions.length).fill(false);
+  let factualCorrect = 0;
+  let factualTotal = 0;
+
+  function startPoll() {
+    document.getElementById('intro').style.display = 'none';
+    document.getElementById('pollContainer').style.display = 'block';
+    renderQuestion(0);
+  }
+
+  function renderQuestion(index) {
+    const q = questions[index];
+    const container = document.getElementById('pollContainer');
+    updateProgress(index);
+
+    let html = '';
+
+    if (q.section) {
+      html += `<div class="section-label">${q.section}</div>`;
+      if (q.sectionIntro) {
+        html += `<p class="section-intro">${q.sectionIntro}</p>`;
+      }
+    }
+
+    html += `<div class="question-card" id="qcard">`;
+    html += `<div class="question-number">${q.number}</div>`;
+    html += `<div class="question-text">${q.question || q.text}</div>`;
+    html += `<div class="options" id="options">`;
+
+    q.options.forEach((opt, i) => {
+      html += `
+        <label class="option" id="opt-${i}" onclick="selectOption(${i})">
+          <input type="radio" name="q${index}" value="${i}" id="radio-${i}" />
+          ${opt}
+        </label>`;
+    });
+
+    html += `</div>`;
+    html += `<button class="submit-btn" id="submitBtn" onclick="submitAnswer()" disabled>Submit</button>`;
+
+    // Benchmark (hidden until submitted)
+    html += `<div class="benchmark" id="benchmark">
+      <strong>Global Survey Finding</strong>
+      <p><span class="highlight-stat">${q.benchmark.stat}</span>${q.benchmark.text}</p>
+      <p class="source">Source: ${q.benchmark.source}</p>
+    </div>`;
+
+    html += `</div>`;
+
+    // Navigation
+    html += `<div class="nav-buttons">
+      <button class="nav-btn prev" onclick="goTo(${index - 1})" ${index === 0 ? 'disabled' : ''}>← Previous</button>
+      <span class="q-counter">${index + 1} of ${questions.length}</span>
+      <button class="nav-btn next" id="nextBtn" onclick="goNext(${index})" style="display:none;">
+        ${index === questions.length - 1 ? 'See Summary →' : 'Next →'}
+      </button>
+    </div>`;
+
+    container.innerHTML = html;
+
+    // Restore state if already answered
+    if (answered[index] !== false) {
+      restoreAnswer(index, answered[index]);
+    }
+  }
+
+  function selectOption(i) {
+    document.querySelectorAll('.option').forEach(el => el.classList.remove('selected'));
+    document.getElementById(`opt-${i}`).classList.add('selected');
+    document.getElementById(`radio-${i}`).checked = true;
+    document.getElementById('submitBtn').disabled = false;
+  }
+
+  function submitAnswer() {
+    const q = questions[current];
+    const selected = document.querySelector('input[name="q' + current + '"]:checked');
+    if (!selected) return;
+
+    const selectedIndex = parseInt(selected.value);
+    answered[current] = selectedIndex;
+
+    // Disable all options
+    document.querySelectorAll('.option').forEach((el, i) => {
+      el.style.cursor = 'default';
+      el.onclick = null;
+      el.querySelector('input').disabled = true;
+
+      if (q.type === 'factual') {
+        if (i === q.correctIndex) el.classList.add('correct');
+        else if (i === selectedIndex && selectedIndex !== q.correctIndex) el.classList.add('incorrect');
+      }
+    });
+
+    // Track score for factual questions
+    if (q.type === 'factual') {
+      factualTotal++;
+      if (selectedIndex === q.correctIndex) factualCorrect++;
+    }
+
+    // Show benchmark
+    document.getElementById('benchmark').classList.add('show');
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('submitBtn').style.display = 'none';
+    document.getElementById('nextBtn').style.display = 'inline-block';
+  }
+
+  function restoreAnswer(index, selectedIndex) {
+    const q = questions[index];
+    document.querySelectorAll('.option').forEach((el, i) => {
+      el.style.cursor = 'default';
+      el.onclick = null;
+      el.querySelector('input').disabled = true;
+      if (i === selectedIndex) el.classList.add('selected');
+      if (q.type === 'factual') {
+        if (i === q.correctIndex) el.classList.add('correct');
+        else if (i === selectedIndex && selectedIndex !== q.correctIndex) el.classList.add('incorrect');
+      }
+    });
+    document.getElementById('benchmark').classList.add('show');
+    document.getElementById('submitBtn').style.display = 'none';
+    document.getElementById('nextBtn').style.display = 'inline-block';
+  }
+
+  function goNext(index) {
+    if (index === questions.length - 1) {
+      showSummary();
+    } else {
+      goTo(index + 1);
+    }
+  }
+
+  function goTo(index) {
+    current = index;
+    renderQuestion(index);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress(index) {
+    const pct = ((index) / questions.length) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  function showSummary() {
+    document.getElementById('pollContainer').style.display = 'none';
+    document.getElementById('progressBar').style.width = '100%';
+
+    const summaryEl = document.getElementById('summary');
+    summaryEl.style.display = 'block';
+
+    const unanswered = answered.filter(a => a === false).length;
+    const completed = questions.length - unanswered;
+
+    summaryEl.innerHTML = `
+      <h2>You've completed the poll</h2>
+      <p>You answered <strong>${completed} of ${questions.length}</strong> questions.</p>
+
+      ${factualTotal > 0 ? `
+      <div class="score-label">Estimation questions</div>
+      <div class="score">${factualCorrect} / ${factualTotal}</div>
+      <p>correct guesses on the data estimation questions.</p>
+      ` : ''}
+
+      <p style="margin-top:1.5rem;">Pay particular attention to any questions where the global data surprised you — these are often the most interesting starting points for discussion.</p>
+
+      <button class="restart-btn" onclick="restartPoll()">← Review my answers</button>
+    `;
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function restartPoll() {
+    document.getElementById('summary').style.display = 'none';
+    document.getElementById('pollContainer').style.display = 'block';
+    current = 0;
+    renderQuestion(0);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
